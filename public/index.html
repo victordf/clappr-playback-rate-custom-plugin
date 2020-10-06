@@ -32,15 +32,33 @@
           plugins: [
             PlaybackRatePlugin,
           ],
-          // playbackRateConfig: {
-          //   defaultValue: 1,
-          //   options: [
-          //       {value: 0.5, label: '0.5x'},
-          //       {value: 1, label: '1x'},
-          //       {value: 2, label: '2x'},
-          //   ],
-          //   rateSuffix: 'x',
-          // },
+          playbackRateConfig: {
+            defaultValue: 1,
+            customRange: {
+              min: 0.25,
+              max: 4,
+              step: 0.25
+            },
+            options: [
+                {value: 0.25, label: '0.25x'},
+                {value: 0.50, label: '0.50x'},
+                {value: 0.75, label: '0.75x'},
+                {value: 1, label: 'Normal'},
+                {value: 1.25, label: '1.25x'},
+                {value: 1.50, label: '1.50x'},
+                {value: 1.75, label: '1.75x'},
+                {value: 2, label: '2x'},
+                {value: 2.25, label: '2.25x'},
+                {value: 2.5, label: '2.5x'},
+                {value: 2.75, label: '2.75x'},
+                {value: 3, label: '3x'},
+                {value: 3.25, label: '3.25x'},
+                {value: 3.5, label: '3.5x'},
+                {value: 3.75, label: '3.75x'},
+                {value: 4, label: '4x'},
+            ],
+            rateSuffix: 'x',
+          },
         });
 
       })();

@@ -24,7 +24,7 @@ button[data-playback-rate-button] {
     }
   }
 
-  &> ul {
+  &> ul.options-wrapper {
     display: none;
     list-style-type: none;
     position: absolute;
@@ -32,6 +32,73 @@ button[data-playback-rate-button] {
     border: 1px solid black;
     border-radius: 4px;
     background-color: rgba(0,0,0,0.7);
+    min-width: 150px;
+  }
+
+  &> div.custom-playbackrate-slide {
+    display: none;
+    position: absolute;
+    bottom: 25px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.7);
+    min-width: 150px;
+
+    ul {
+      list-style-type: none;
+      position: relative;
+      color: #aaa;
+      width: 100%;
+      height: 40px;
+
+      .slideContainer {
+        width: 100%;
+      }
+
+      #custom-playbackrate-field::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 6px;
+        cursor: pointer;
+        animate: 0.2s;
+        box-shadow: 1px 1px 1px #000000;
+        background: linear-gradient(90deg, rgb(117, 117, 117) 60%, rgb(117, 117, 117) 60%); //3071A9
+        border-radius: 5px;
+        border: 1px solid #000000;
+      }
+
+      #custom-playbackrate-field::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        // box-shadow: 1px 1px 1px #000000;
+        // border: 1px solid #000000;
+        height: 30px;
+        width: 15px;
+        // border-radius: 5px;
+        background: #FFFFFF !important;
+        cursor: pointer;
+        // -webkit-appearance: none;
+        margin-top: -6px;
+      }
+    }
+  }
+
+  li.custom-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    height: 25px;
+    padding: none !important;
+
+    &:hover {
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  li.custom-playback-rate {
+    display: none;
   }
 
   li {
@@ -47,7 +114,9 @@ button[data-playback-rate-button] {
       padding: 2px 10px 2px 15px;
       display: block;
       text-decoration: none;
-
+      text-align: left;
+      margin-left: 10px;
+  
       &.active {
         background-color: rgba(0,0,0,1.0);
         font-weight: bold;

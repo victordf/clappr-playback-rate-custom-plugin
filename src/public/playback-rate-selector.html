@@ -1,8 +1,29 @@
 <button class="media-control-button media-control-icon" data-playback-rate-button>
   <%= title %>
 </button>
-<ul>
+<ul class="options-wrapper">
+  <li class="custom-option" data-custom-playbackrate-click>Personalizado</li>
+  <li class="custom-playback-rate"><a href="#" data-playback-rate-select="custom"><%= selectedRate %>x</a></li>  
   <% for (var i = 0; i < playbackRates.length; i++) { %>
     <li><a href="#" data-playback-rate-select="<%= playbackRates[i].value %>"><%= playbackRates[i].label %></a></li>
   <% }; %>
 </ul>
+<div class="custom-playbackrate-slide">
+  <ul>
+    <li><label><%= playbackCustomRangeLabel %></label></li>
+    <li>
+      <div class="slideContainer">
+        <input 
+          type="range" 
+          name="custom-playbackrate-field" 
+          id="custom-playbackrate-field"
+          data-playback-rate-custom-change
+          min="<%= playbackCustomRange.min %>"
+          max="<%= playbackCustomRange.max %>"
+          step="<%= playbackCustomRange.step %>"
+          value="<%= selectedRate %>"
+        >
+      </div>
+    </li>
+  </ul>
+</div>

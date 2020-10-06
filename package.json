@@ -1,9 +1,12 @@
 {
-  "name": "clappr-playback-rate-plugin",
+  "name": "clappr-playback-rate-custom-plugin",
   "description": "A simple plugin for Clappr that adds support to manually select the playback rate on HTML5 containers.",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "license": "MIT",
-  "repository": "bikegriffith/clappr-playback-rate-plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bikegriffith/clappr-playback-rate-plugin.git"
+  },
   "main": "lib/clappr-playback-rate-plugin.js",
   "scripts": {
     "build": "webpack --progress --mode production",
@@ -13,11 +16,7 @@
     "start": "webpack-dev-server --mode development",
     "test": "echo \"no tests defined\""
   },
-  "author": {
-    "name": "Mike Griffith",
-    "email": "bikegriffith@gmail.com",
-    "url": "https://github.com/bikegriffith"
-  },
+  "author": "Mike Griffith <bikegriffith@gmail.com> (https://github.com/bikegriffith)",
   "keywords": [
     "clappr",
     "plugin"
@@ -38,5 +37,13 @@
     "webpack": "^4.0",
     "webpack-cli": "^3.3",
     "webpack-dev-server": "^3.10"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/bikegriffith/clappr-playback-rate-plugin/issues"
+  },
+  "homepage": "https://github.com/bikegriffith/clappr-playback-rate-plugin#readme",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {}
 }

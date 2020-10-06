@@ -10,10 +10,15 @@ const DEFAULT_PLAYBACK_RATES = [
   {value: 2, label: '2x'}
 ]
 
+const DEFAULT_MIN_PLAYBACKRATE_CUSTOM_RANGE = 0.5;
+const DEFAULT_MAX_PLAYBACKRATE_CUSTOM_RANGE = 2;
+const DEFAULT_STEP_PLAYBACKRATE_CUSTOM_RANGE = 0.1;
+
 const DEFAULT_PLAYBACK_RATE = 1
 const DEFAULT_PLAYBACK_RATE_SUFFIX = 'x' // Used by getTitle method
 
 export default class PlaybackRatePlugin extends UICorePlugin {
+  get customPlaybackRate() { return null }
   get name() { return 'playback_rate' }
   get template() { return template(pluginHtml) }
 
@@ -27,7 +32,10 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   get events() {
     return {
       'click [data-playback-rate-select]': 'onRateSelect',
-      'click [data-playback-rate-button]': 'onShowMenu'
+      'click [data-playback-rate-button]': 'onShowMenu',
+      'click [data-custom-playbackrate-click]': 'onCustomSelect',
+      'input [data-playback-rate-custom-change]': 'onCustomChange',
+      'mousemove [data-playback-rate-custom-change]': 'onCustomMouseMove'
     }
   }
 
@@ -81,8 +89,22 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     this.selectedRate = cfg.defaultValue || DEFAULT_PLAYBACK_RATE
     this.rateSuffix = cfg.rateSuffix || DEFAULT_PLAYBACK_RATE_SUFFIX
 
+    this.playbackCustomRangeLabel = this.selectedRate+'x'
+    this.playbackCustomRange = cfg.customRange || {
+      min: cfg.playbackCustomRange && cfg.playbackCustomRange.min || DEFAULT_MIN_PLAYBACKRATE_CUSTOM_RANGE,
+      max: cfg.playbackCustomRange && cfg.playbackCustomRange.max || DEFAULT_MAX_PLAYBACKRATE_CUSTOM_RANGE,
+      step: cfg.playbackCustomRange && cfg.playbackCustomRange.step || DEFAULT_STEP_PLAYBACKRATE_CUSTOM_RANGE,
+    }
+
     let t = template(pluginHtml)
-    let html = t({playbackRates: this.playbackRates, title: this.getTitle()})
+    let html = t({
+      playbackRates: this.playbackRates, 
+      title: this.getTitle(), 
+      customPlaybackRate: this.customPlaybackRate,
+      playbackCustomRangeLabel: this.playbackCustomRangeLabel,
+      playbackCustomRange: this.playbackCustomRange,
+      selectedRate: this.selectedRate
+    })
     this.$el.html(html)
 
     let style = Styler.getStyleFor(pluginStyle, {baseUrl: this.core.options.baseUrl})
@@ -103,15 +125,65 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   }
 
   onShowMenu() {
+    this.hideCustomPlaybackrateSlider()
     this.toggleContextMenu()
   }
 
+  onCustomSelect() {
+    this.toggleContextMenu()
+    this.toggleCustomPlaybackrateSlider()
+  }
+
+  onCustomChange(event) {
+    event.stopPropagation()
+    let rate = event.target.value
+    this.showCustomOption(rate)
+    this.setSelectedRate(rate)
+    return false
+  }
+
+  onCustomMouseMove(e) {
+    let slider = e.target;
+    let valuePercent = (slider.value * 100) / slider.max;
+    let color = `linear-gradient(90deg, rgb(255, 255, 255) ${valuePercent}%, rgb(117, 117, 117) ${valuePercent}%)`;
+    slider.style.background = color;
+    console.log(color)
+    
+  }
+
+  isCustom(playbackRate) {
+    let rates = this.playbackRates.filter((pRate) => { 
+      return this.toNumber(pRate.value) === this.toNumber(playbackRate) 
+    })
+    
+    if (rates.length > 0) {
+      return true
+    }
+    return false
+  }
+
+  showCustomOption(playbackRate) {
+    if (this.isCustom(playbackRate)) {
+      this.$('.playback_rate li.custom-playback-rate').hide()
+    } else {
+      this.$('.playback_rate ul li.custom-playback-rate a').text(playbackRate+'x')
+      this.$('.playback_rate ul li.custom-playback-rate').show()
+    }
+  }
+
+  toggleCustomPlaybackrateSlider() {
+    this.$('.playback_rate div.custom-playbackrate-slide').toggle()
+  }
+  hideCustomPlaybackrateSlider() {
+    this.$('.playback_rate div.custom-playbackrate-slide').hide()
+  }
+
   toggleContextMenu() {
-    this.$('.playback_rate ul').toggle()
+    this.$('.playback_rate ul.options-wrapper').toggle()
   }
 
   hideContextMenu() {
-    this.$('.playback_rate ul').hide()
+    this.$('.playback_rate ul.options-wrapper').hide()
   }
 
   toNumber(value) {
@@ -132,12 +204,21 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   }
 
   setActiveListItem(rateValue) {
-    this.$('a').removeClass('active')
-    this.$(`a[data-playback-rate-select="${rateValue}"]`).addClass('active')
+    if (this.isCustom(rateValue)) {
+      this.$('a').removeClass('active')
+      this.$(`a[data-playback-rate-select="${rateValue}"]`).addClass('active')
+    } else {
+      this.$('a').removeClass('active')
+      this.$(`a[data-playback-rate-select="custom"]`).addClass('active')
+    }
   }
 
   buttonElement() {
     return this.$('.playback_rate button')
+  }
+
+  playbackRateCustomLabelElement() {
+    return this.$('.playback_rate div.custom-playbackrate-slide label')
   }
 
   getTitle() {
@@ -145,7 +226,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
 
     for (const i in this.playbackRates) {
       if (this.playbackRates[i].value == rate)
-        return this.playbackRates[i].label
+        return this.playbackRates[i].label.replace('Personalizado(','').replace(')','')
     }
 
     // Unknown rate formatted title
@@ -154,6 +235,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
 
   updateText() {
     this.buttonElement().text(this.getTitle())
+    this.playbackRateCustomLabelElement().text(this.selectedRate+'x')
     this.setActiveListItem(this.selectedRate)
   }
 }
