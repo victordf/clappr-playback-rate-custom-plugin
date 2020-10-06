@@ -58,7 +58,8 @@ export default class PlaybackRatePlugin extends UICorePlugin {
       this.listenTo(this.core.mediaControl, Events.MEDIACONTROL_CONTAINERCHANGED, this.reload)
 
     this.listenTo(this.core.mediaControl, Events.MEDIACONTROL_RENDERED, this.render)
-    this.listenTo(this.core.mediaControl, Events.MEDIACONTROL_HIDE, this.hideContextMenu)
+    // this.listenTo(this.core.mediaControl, Events.MEDIACONTROL_HIDE, this.hideContextMenu)
+    this.listenTo(this.core.mediaControl, Events.MEDIACONTROL_HIDE, this.hideMenus)
   }
 
   getExternalInterface() {
@@ -174,6 +175,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   toggleCustomPlaybackrateSlider() {
     this.$('.playback_rate div.custom-playbackrate-slide').toggle()
   }
+
   hideCustomPlaybackrateSlider() {
     this.$('.playback_rate div.custom-playbackrate-slide').hide()
   }
@@ -184,6 +186,11 @@ export default class PlaybackRatePlugin extends UICorePlugin {
 
   hideContextMenu() {
     this.$('.playback_rate ul.options-wrapper').hide()
+  }
+
+  hideMenus() {
+    this.hideContextMenu();
+    this.hideCustomPlaybackrateSlider();
   }
 
   toNumber(value) {
