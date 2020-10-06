@@ -13,6 +13,7 @@ const DEFAULT_PLAYBACK_RATES = [
 const DEFAULT_MIN_PLAYBACKRATE_CUSTOM_RANGE = 0.5;
 const DEFAULT_MAX_PLAYBACKRATE_CUSTOM_RANGE = 2;
 const DEFAULT_STEP_PLAYBACKRATE_CUSTOM_RANGE = 0.1;
+const DEFAULT_LABEL_PLAYBACKRATE_CUSTOM_RANGE = 'Custom';
 
 const DEFAULT_PLAYBACK_RATE = 1
 const DEFAULT_PLAYBACK_RATE_SUFFIX = 'x' // Used by getTitle method
@@ -91,6 +92,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     this.rateSuffix = cfg.rateSuffix || DEFAULT_PLAYBACK_RATE_SUFFIX
 
     this.playbackCustomRangeLabel = this.selectedRate+'x'
+    this.playbackCustomLabel = cfg.customRangeLabel || DEFAULT_LABEL_PLAYBACKRATE_CUSTOM_RANGE;
     this.playbackCustomRange = cfg.customRange || {
       min: cfg.playbackCustomRange && cfg.playbackCustomRange.min || DEFAULT_MIN_PLAYBACKRATE_CUSTOM_RANGE,
       max: cfg.playbackCustomRange && cfg.playbackCustomRange.max || DEFAULT_MAX_PLAYBACKRATE_CUSTOM_RANGE,
@@ -102,6 +104,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
       playbackRates: this.playbackRates, 
       title: this.getTitle(), 
       customPlaybackRate: this.customPlaybackRate,
+      playbackCustomLabel: this.playbackCustomLabel,
       playbackCustomRangeLabel: this.playbackCustomRangeLabel,
       playbackCustomRange: this.playbackCustomRange,
       selectedRate: this.selectedRate
@@ -113,6 +116,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
 
     this.core.mediaControl.$('.media-control-right-panel').append(this.el)
     this.updateText()
+    this.loadCustomRangeStyle(this.selectedRate, this.playbackCustomRange.max);
 
     return this
   }
@@ -148,8 +152,13 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     let valuePercent = (slider.value * 100) / slider.max;
     let color = `linear-gradient(90deg, rgb(255, 255, 255) ${valuePercent}%, rgb(117, 117, 117) ${valuePercent}%)`;
     slider.style.background = color;
-    console.log(color)
-    
+  }
+
+  loadCustomRangeStyle(value, max) {
+    let valuePercent = (value * 100) / max;
+    let color = `linear-gradient(90deg, rgb(255, 255, 255) ${valuePercent}%, rgb(117, 117, 117) ${valuePercent}%)`;
+    let input = this.$('.playback_rate div.custom-playbackrate-slide ul li div.slideContainer input');
+    input.selector[0].style.background = color
   }
 
   isCustom(playbackRate) {

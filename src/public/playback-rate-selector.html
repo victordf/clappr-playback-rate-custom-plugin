@@ -2,7 +2,7 @@
   <%= title %>
 </button>
 <ul class="options-wrapper">
-  <li class="custom-option" data-custom-playbackrate-click>Personalizado</li>
+  <li class="custom-option" data-custom-playbackrate-click><%= playbackCustomLabel %></li>
   <li class="custom-playback-rate"><a href="#" data-playback-rate-select="custom"><%= selectedRate %>x</a></li>  
   <% for (var i = 0; i < playbackRates.length; i++) { %>
     <li><a href="#" data-playback-rate-select="<%= playbackRates[i].value %>"><%= playbackRates[i].label %></a></li>
