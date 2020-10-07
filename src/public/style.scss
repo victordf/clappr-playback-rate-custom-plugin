@@ -44,6 +44,16 @@ button[data-playback-rate-button] {
     background-color: rgba(0,0,0,0.7);
     min-width: 150px;
 
+    .back-icon {
+      position: absolute;
+      left: 9px;
+      cursor: pointer;
+    }
+
+    .back-icon:hover {
+      color: #ffffff;
+    }
+
     ul {
       list-style-type: none;
       position: relative;

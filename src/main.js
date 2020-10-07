@@ -36,7 +36,8 @@ export default class PlaybackRatePlugin extends UICorePlugin {
       'click [data-playback-rate-button]': 'onShowMenu',
       'click [data-custom-playbackrate-click]': 'onCustomSelect',
       'input [data-playback-rate-custom-change]': 'onCustomChange',
-      'mousemove [data-playback-rate-custom-change]': 'onCustomMouseMove'
+      'mousemove [data-playback-rate-custom-change]': 'onCustomMouseMove',
+      'click [data-back-icon-slider]': 'onBack'
     }
   }
 
@@ -130,6 +131,11 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   }
 
   onShowMenu() {
+    this.hideCustomPlaybackrateSlider()
+    this.toggleContextMenu()
+  }
+
+  onBack() {
     this.hideCustomPlaybackrateSlider()
     this.toggleContextMenu()
   }
