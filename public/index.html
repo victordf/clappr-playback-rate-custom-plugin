@@ -18,6 +18,10 @@
     <script>
       var player;
 
+      var callback = (value) => {
+        alert(value)
+      }
+
       (function () {
         console.log('Clappr version ' + Clappr.version);
         // Clappr.Log.setLevel(0)

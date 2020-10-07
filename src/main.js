@@ -92,6 +92,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     this.selectedRate = cfg.defaultValue || DEFAULT_PLAYBACK_RATE
     this.rateSuffix = cfg.rateSuffix || DEFAULT_PLAYBACK_RATE_SUFFIX
 
+    this.playbackCustomCallback = cfg.customRangeCallback || null;
     this.playbackCustomRangeLabel = this.selectedRate+'x'
     this.playbackCustomLabel = cfg.customRangeLabel || DEFAULT_LABEL_PLAYBACKRATE_CUSTOM_RANGE;
     this.playbackCustomRange = cfg.customRange || {
@@ -150,6 +151,9 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     let rate = event.target.value
     this.showCustomOption(rate)
     this.setSelectedRate(rate)
+    if (this.playbackCustomCallback) {
+      this.playbackCustomCallback(rate)
+    }
     return false
   }
 
