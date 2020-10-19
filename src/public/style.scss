@@ -2,7 +2,9 @@ button[data-playback-rate-button] {
   white-space: nowrap;
 }
 
-.media-control[data-media-control] .media-control-layer[data-controls] .playback_rate[data-playback-rate-select] {
+.media-control[data-media-control] 
+.media-control-layer[data-controls] 
+.playback_rate[data-playback-rate-select] {
   float: right;
   margin-top: 5px;
   position: relative;

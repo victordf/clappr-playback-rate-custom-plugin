@@ -116,6 +116,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     let style = Styler.getStyleFor(pluginStyle, {baseUrl: this.core.options.baseUrl})
     this.$el.append(style)
 
+    console.log(this.core.mediaControl)
     this.core.mediaControl.$('.media-control-right-panel').append(this.el)
     this.updateText()
     this.loadCustomRangeStyle(this.selectedRate, this.playbackCustomRange.max);
@@ -132,6 +133,9 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   }
 
   onShowMenu() {
+    this.stopListening()
+    this.core.mediaControl.trigger(Events.MEDIACONTROL_HIDE)
+    this.bindEvents()
     this.hideCustomPlaybackrateSlider()
     this.toggleContextMenu()
   }
@@ -208,6 +212,9 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   }
 
   hideMenus() {
+    this.stopListening()
+    this.core.mediaControl.trigger(Events.MEDIACONTROL_HIDE)
+    this.bindEvents()
     this.hideContextMenu();
     this.hideCustomPlaybackrateSlider();
   }
