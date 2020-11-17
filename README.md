@@ -1,7 +1,12 @@
 # Clappr Playback Rate Plugin
 
+## With "menu" UI type
 <img src="https://raw.githubusercontent.com/victordf/clappr-playback-rate-plugin/master/uiType-menu-screenshot.png"/>
+
+## With "slide" UI type
 <img src="https://raw.githubusercontent.com/victordf/clappr-playback-rate-plugin/master/uiType-slide-screenshot.png"/>
+
+## With "both" UI type
 <img src="https://raw.githubusercontent.com/victordf/clappr-playback-rate-plugin/master/uiType-both-screenshot.png"/>
 
 # Getting started
