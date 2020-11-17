@@ -1,6 +1,8 @@
 # Clappr Playback Rate Plugin
 
-<img src="https://raw.githubusercontent.com/bikegriffith/clappr-playback-rate-plugin/master/screenshot.png"/>
+<img src="https://raw.githubusercontent.com/victordf/clappr-playback-rate-plugin/master/uiType-menu-screenshot.png"/>
+<img src="https://raw.githubusercontent.com/victordf/clappr-playback-rate-plugin/master/uiType-slide-screenshot.png"/>
+<img src="https://raw.githubusercontent.com/victordf/clappr-playback-rate-plugin/master/uiType-both-screenshot.png"/>
 
 # Getting started
 
@@ -36,6 +38,7 @@ var player = new Clappr.Player({
   ],
   playbackRateConfig: {
     defaultValue: 1,
+    uiType: 'menu', // Can be menu, slide or both
     options: [
       {value: 0.5, label: '0.5x'},
       {value: 1, label: '1x'},
