@@ -14,6 +14,7 @@ const DEFAULT_MIN_PLAYBACKRATE_CUSTOM_RANGE = 0.5;
 const DEFAULT_MAX_PLAYBACKRATE_CUSTOM_RANGE = 2;
 const DEFAULT_STEP_PLAYBACKRATE_CUSTOM_RANGE = 0.1;
 const DEFAULT_LABEL_PLAYBACKRATE_CUSTOM_RANGE = 'Custom';
+const DEFAULT_UI_TYPE = 'menu';
 
 const DEFAULT_PLAYBACK_RATE = 1
 const DEFAULT_PLAYBACK_RATE_SUFFIX = 'x' // Used by getTitle method
@@ -91,6 +92,7 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     this.playbackRates = cfg.options || DEFAULT_PLAYBACK_RATES
     this.selectedRate = cfg.defaultValue || DEFAULT_PLAYBACK_RATE
     this.rateSuffix = cfg.rateSuffix || DEFAULT_PLAYBACK_RATE_SUFFIX
+    this.uiType = cfg.uiType || DEFAULT_UI_TYPE
 
     this.playbackCustomCallback = cfg.customRangeCallback || null;
     this.playbackCustomRangeLabel = this.selectedRate+'x'
@@ -103,20 +105,20 @@ export default class PlaybackRatePlugin extends UICorePlugin {
 
     let t = template(pluginHtml)
     let html = t({
-      playbackRates: this.playbackRates, 
-      title: this.getTitle(), 
+      playbackRates: this.playbackRates,
+      title: this.getTitle(),
       customPlaybackRate: this.customPlaybackRate,
       playbackCustomLabel: this.playbackCustomLabel,
       playbackCustomRangeLabel: this.playbackCustomRangeLabel,
       playbackCustomRange: this.playbackCustomRange,
-      selectedRate: this.selectedRate
+      selectedRate: this.selectedRate,
+      uiType: this.uiType
     })
     this.$el.html(html)
 
     let style = Styler.getStyleFor(pluginStyle, {baseUrl: this.core.options.baseUrl})
     this.$el.append(style)
 
-    console.log(this.core.mediaControl)
     this.core.mediaControl.$('.media-control-right-panel').append(this.el)
     this.updateText()
     this.loadCustomRangeStyle(this.selectedRate, this.playbackCustomRange.max);
@@ -137,7 +139,11 @@ export default class PlaybackRatePlugin extends UICorePlugin {
     this.core.mediaControl.trigger(Events.MEDIACONTROL_HIDE)
     this.bindEvents()
     this.hideCustomPlaybackrateSlider()
-    this.toggleContextMenu()
+    if (this.uiType === 'slide') {
+      this.toggleCustomPlaybackrateSlider()
+    } else {
+      this.toggleContextMenu()
+    }
   }
 
   onBack() {
@@ -176,10 +182,10 @@ export default class PlaybackRatePlugin extends UICorePlugin {
   }
 
   isCustom(playbackRate) {
-    let rates = this.playbackRates.filter((pRate) => { 
-      return this.toNumber(pRate.value) === this.toNumber(playbackRate) 
+    let rates = this.playbackRates.filter((pRate) => {
+      return this.toNumber(pRate.value) === this.toNumber(playbackRate)
     })
-    
+
     if (rates.length > 0) {
       return true
     }

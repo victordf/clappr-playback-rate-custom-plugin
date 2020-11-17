@@ -1,24 +1,32 @@
 <button class="media-control-button media-control-icon" data-playback-rate-button>
   <%= title %>
 </button>
+<% if (uiType === 'menu' || uiType === 'both') { %>
 <ul class="options-wrapper">
-  <li class="custom-option" data-custom-playbackrate-click><%= playbackCustomLabel %></li>
-  <li class="custom-playback-rate"><a href="#" data-playback-rate-select="custom"><%= selectedRate %>x</a></li>  
+  <% if (uiType === 'slide' || uiType === 'both') { %>
+    <li class="custom-option" data-custom-playbackrate-click><%= playbackCustomLabel %></li>
+  <% }; %>
+  <li class="custom-playback-rate"><a href="#" data-playback-rate-select="custom"><%= selectedRate %>x</a></li>
   <% for (var i = 0; i < playbackRates.length; i++) { %>
     <li><a href="#" data-playback-rate-select="<%= playbackRates[i].value %>"><%= playbackRates[i].label %></a></li>
   <% }; %>
 </ul>
+<% }; %>
+
+<% if (uiType === 'slide' || uiType === 'both') { %>
 <div class="custom-playbackrate-slide">
   <ul>
     <li>
+      <% if (uiType === 'both') { %>
       <span class="back-icon" data-back-icon-slider><</i></span>
+      <% }; %>
       <label><%= playbackCustomRangeLabel %></label>
     </li>
     <li>
       <div class="slideContainer">
-        <input 
-          type="range" 
-          name="custom-playbackrate-field" 
+        <input
+          type="range"
+          name="custom-playbackrate-field"
           id="custom-playbackrate-field"
           data-playback-rate-custom-change
           min="<%= playbackCustomRange.min %>"
@@ -30,3 +38,4 @@
     </li>
   </ul>
 </div>
+<% }; %>

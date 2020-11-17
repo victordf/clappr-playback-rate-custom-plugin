@@ -1,13 +1,13 @@
 {
-  "name": "clappr-playback-rate-custom-plugin",
+  "name": "clappr-playback-rate-plugin",
   "description": "A simple plugin for Clappr that adds support to manually select the playback rate on HTML5 containers.",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bikegriffith/clappr-playback-rate-plugin.git"
   },
-  "main": "lib/clappr-playback-rate-custom-plugin.js",
+  "main": "lib/clappr-playback-rate-plugin.js",
   "scripts": {
     "build": "webpack --progress --mode production",
     "dist": "webpack --progress --mode production",

@@ -2,7 +2,7 @@
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin');
 
-var name = 'clappr-playback-rate-custom-plugin'
+var name = 'clappr-playback-rate-plugin'
 var outputFile, plugins = [], optimization = {}
 
 if (process.env.npm_lifecycle_event === 'dist') {
